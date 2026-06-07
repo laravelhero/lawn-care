@@ -1,0 +1,48 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+---
+
+<ServiceDetail
+  slug="landscaping"
+  title="Landscaping"
+  metaTitle="Custom Landscaping & Landscape Design in Raleigh, NC"
+  metaDescription="Award-worthy landscape design & installation in Raleigh, Cary & Durham. Native plantings, beds, borders, hardscapes & full transformations. Free design consultation."
+  eyebrow="Landscaping"
+  hero="Landscape design that <span class='text-forest-400'>transforms</span> your property"
+  heroImage="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=2000&q=80"
+  intro="From concept to completion, we design and install beds, borders, native plantings, and hardscape features that elevate curb appeal and create outdoor spaces you'll love for years."
+  benefits={[
+    { icon: 'landscape', title: 'Custom Design', text: 'Every project starts with a tailored design built around your home, style, and how you use your outdoor space.' },
+    { icon: 'sprout', title: 'Native & Adaptive Plants', text: 'We specify Piedmont-hardy, low-maintenance plantings that thrive in our climate and support local pollinators.' },
+    { icon: 'ruler', title: 'Hardscape Expertise', text: 'Patios, walkways, retaining walls, and borders engineered to last and tie the whole landscape together.' },
+    { icon: 'droplet', title: 'Smart Drainage', text: 'Grading and drainage solutions that protect your foundation and keep beds healthy through heavy rains.' },
+    { icon: 'shield', title: 'Built to Last', text: 'Quality materials and proper installation backed by our workmanship warranty.' },
+    { icon: 'badge-check', title: 'Turnkey Service', text: 'One team manages design, sourcing, install, and cleanup — no juggling multiple contractors.' },
+  ]}
+  process={[
+    { title: 'Design Consultation', text: 'We visit your property, learn your goals and budget, and assess sun, soil, and drainage conditions.' },
+    { title: 'Custom Plan & 3D Concept', text: 'You receive a detailed design with plant selections, materials, and a transparent line-item quote.' },
+    { title: 'Professional Installation', text: 'Our crews handle prep, grading, planting, and hardscape construction with meticulous attention to detail.' },
+    { title: 'Walkthrough & Care Guide', text: 'We review the finished space and leave you with a simple care guide so everything thrives.' },
+  ]}
+  pricing={[
+    { name: 'Refresh Package', price: '$1,200', unit: 'starting', features: ['Bed redesign & mulching', 'Fresh plantings', 'Edging & cleanup', 'Plant care guide'] },
+    { name: 'Full Front Yard', price: '$4,500', unit: 'starting', popular: true, features: ['Custom design plan', 'Beds, borders & plantings', 'Walkway or accent hardscape', 'Drainage grading', 'Workmanship warranty'] },
+    { name: 'Complete Transformation', price: 'Custom', unit: 'quote', features: ['Full property design', 'Patios & retaining walls', 'Lighting & irrigation prep', 'Phased installation option', 'Dedicated project manager'] },
+  ]}
+  localCopy={{
+    heading: 'Landscaping designed for Triangle living',
+    body: [
+      "North Carolina's Piedmont gives us rich clay soils, four real seasons, and a long growing window — and we design with all of it in mind. The result is a landscape that looks intentional in every season, not just spring.",
+      "We favor native and adaptive species — coneflower, muhly grass, oakleaf hydrangea, native dogwood — that need less water, resist local pests, and feed pollinators. Less maintenance, more beauty.",
+      "Whether you're refreshing tired front beds in Cary or reimagining an entire Raleigh backyard, our design-build team delivers a cohesive, lasting result from a single point of contact.",
+    ],
+  }}
+  faqs={[
+    { q: 'Do you offer landscape design as a standalone service?', a: 'Yes. We offer professional design plans you can keep, though most clients choose our design-build service where the design fee is credited toward installation.' },
+    { q: 'What plants do you recommend for this area?', a: 'We lean heavily on native and adaptive species suited to the Piedmont — they need less water, resist local pests, and support pollinators. Your plan will be tailored to your sun, soil, and style.' },
+    { q: 'How long does a typical project take?', a: 'A bed refresh can be completed in a day or two. Full front-yard projects typically run one to two weeks, and larger transformations are scheduled in phases. Your timeline is confirmed before work begins.' },
+    { q: 'Do you handle hardscaping like patios and walls?', a: 'Yes. Our crews build paver patios, walkways, retaining walls, and borders, all engineered with proper base prep and drainage for long-term durability.' },
+    { q: 'Is there a warranty on the work?', a: 'We back our installations with a workmanship warranty, and most nursery plant material carries its own guarantee. We will walk you through the specifics in your proposal.' },
+  ]}
+/>

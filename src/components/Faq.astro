@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+  eyebrow?: string;
+}
+const { items, title = 'Frequently asked questions', eyebrow = 'FAQ' } = Astro.props;
+---
+
+<section class="section-py bg-bone-50">
+  <div class="container-px grid gap-12 lg:grid-cols-[0.9fr_1.4fr]">
+    <div class="reveal">
+      <span class="eyebrow">
+        <Icon name="sprout" class="h-4 w-4" />
+        {eyebrow}
+      </span>
+      <h2 class="mt-4 font-display text-3xl font-extrabold tracking-tight text-forest-900 sm:text-4xl">
+        {title}
+      </h2>
+      <p class="mt-4 text-forest-900/65">
+        Still have questions? Our team is one call away and happy to help you plan the perfect program.
+      </p>
+      <a href="/contact" class="btn-outline mt-7">Ask a question</a>
+    </div>
+
+    <div class="reveal space-y-3" x-data="{ open: 0 }">
+      {
+        items.map((item, i) => (
+          <div class="overflow-hidden rounded-2xl border border-bone-200 bg-white">
+            <button
+              @click={`open = open === ${i} ? null : ${i}`}
+              class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+              :aria-expanded={`open === ${i}`}
+            >
+              <span class="font-display text-base font-bold text-forest-900 md:text-lg">{item.q}</span>
+              <span
+                class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-forest-50 text-forest-600 transition-transform duration-300"
+                :class={`open === ${i} && 'rotate-45'`}
+              >
+                <Icon name="plus" class="h-4 w-4" />
+              </span>
+            </button>
+            <div
+              x-show={`open === ${i}`}
+              x-collapse
+              x-cloak={i !== 0 ? true : undefined}
+            >
+              <p class="px-6 pb-6 text-forest-900/65 leading-relaxed">{item.a}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

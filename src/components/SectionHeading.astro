@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: 'center' | 'left';
+  light?: boolean;
+}
+const { eyebrow, title, subtitle, align = 'center', light = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    'reveal max-w-3xl',
+    align === 'center' ? 'mx-auto text-center' : 'text-left',
+  ]}
+>
+  {
+    eyebrow && (
+      <span class:list={['eyebrow', light && '!text-forest-400']}>
+        <Icon name="sprout" class="h-4 w-4" />
+        {eyebrow}
+      </span>
+    )
+  }
+  <h2
+    class:list={[
+      'mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl',
+      light ? 'text-white' : 'text-forest-900',
+    ]}
+  >
+    <Fragment set:html={title} />
+  </h2>
+  {
+    subtitle && (
+      <p class:list={['mt-5 text-lg leading-relaxed', light ? 'text-forest-100/80' : 'text-forest-900/65']}>
+        {subtitle}
+      </p>
+    )
+  }
+</div>

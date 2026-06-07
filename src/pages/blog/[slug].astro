@@ -1,0 +1,226 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { business } from '../../data/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const all = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const related = all.filter((p) => p.id !== post.id).slice(0, 2);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const schema = [
+  {
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    image: post.data.image,
+    datePublished: post.data.pubDate.toISOString(),
+    author: { '@type': 'Person', name: post.data.author },
+    publisher: { '@id': `${business.url}/#business` },
+    mainEntityOfPage: `${business.url}/blog/${post.id}`,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: business.url },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${business.url}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: `${business.url}/blog/${post.id}` },
+    ],
+  },
+];
+---
+
+<Layout title={post.data.title} description={post.data.description} image={post.data.image} schema={schema}>
+  <!-- Article hero -->
+  <article>
+    <header class="relative isolate overflow-hidden bg-forest-950 pt-20">
+      <div class="absolute inset-0 -z-10">
+        <img src={post.data.image} alt="" class="h-full w-full object-cover opacity-30" />
+        <div class="absolute inset-0 bg-gradient-to-b from-forest-950/70 to-forest-950"></div>
+      </div>
+      <div class="container-px py-16 md:py-20">
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-sm text-forest-100/70">
+            <li><a href="/" class="hover:text-forest-400">Home</a></li>
+            <li><Icon name="chevron-down" class="h-4 w-4 -rotate-90 opacity-50" /></li>
+            <li><a href="/blog" class="hover:text-forest-400">Blog</a></li>
+          </ol>
+        </nav>
+        <span class="inline-block rounded-full bg-forest-500 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+          {post.data.category}
+        </span>
+        <h1 class="mt-5 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl">
+          {post.data.title}
+        </h1>
+        <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-forest-100/80">
+          <span class="flex items-center gap-2"><Icon name="users" class="h-4 w-4 text-forest-400" />{post.data.author}</span>
+          <span class="flex items-center gap-2"><Icon name="calendar" class="h-4 w-4 text-forest-400" />{fmt(post.data.pubDate)}</span>
+          <span class="flex items-center gap-2"><Icon name="clock" class="h-4 w-4 text-forest-400" />{post.data.readTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="section-py bg-white">
+      <div class="container-px">
+        <div class="prose-lawn mx-auto max-w-3xl">
+          <Content />
+        </div>
+
+        <!-- Author / CTA card -->
+        <div class="mx-auto mt-14 max-w-3xl rounded-[2rem] bg-forest-800 p-8 text-white md:p-10">
+          <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="font-display text-2xl font-extrabold">Want this handled for you?</h2>
+              <p class="mt-2 text-forest-100/80">Our team brings these tips to life on lawns across the Triangle.</p>
+            </div>
+            <a href="/contact" class="btn-primary flex-shrink-0 !bg-white !text-forest-800 hover:!bg-bone-100">
+              Get a Free Quote
+              <Icon name="arrow" class="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related -->
+  {
+    related.length > 0 && (
+      <section class="section-py bg-bone-50">
+        <div class="container-px">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight text-forest-900">Keep reading</h2>
+          <div class="mt-8 grid gap-7 md:grid-cols-2">
+            {related.map((p) => (
+              <a
+                href={`/blog/${p.id}`}
+                class="group flex overflow-hidden rounded-3xl border border-bone-200 bg-white shadow-card card-hover"
+              >
+                <div class="relative w-2/5 overflow-hidden">
+                  <img src={p.data.image} alt={p.data.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                </div>
+                <div class="flex flex-1 flex-col justify-center p-6">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-forest-600">{p.data.category}</p>
+                  <h3 class="mt-2 font-display text-lg font-bold leading-snug text-forest-900">{p.data.title}</h3>
+                  <span class="mt-3 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-forest-600">
+                    Read
+                    <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>
+
+<style is:global>
+  .prose-lawn {
+    font-size: 1.075rem;
+    line-height: 1.8;
+    color: rgba(8, 28, 21, 0.78);
+  }
+  .prose-lawn > * + * {
+    margin-top: 1.4em;
+  }
+  .prose-lawn h2 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-forest-900);
+    margin-top: 2.4em;
+    margin-bottom: 0.2em;
+  }
+  .prose-lawn h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-forest-900);
+    margin-top: 1.8em;
+  }
+  .prose-lawn a {
+    color: var(--color-forest-600);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-lawn a:hover {
+    color: var(--color-forest-500);
+  }
+  .prose-lawn ul,
+  .prose-lawn ol {
+    padding-left: 1.4em;
+  }
+  .prose-lawn ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .prose-lawn ul li {
+    position: relative;
+    padding-left: 1.9em;
+    margin-top: 0.6em;
+  }
+  .prose-lawn ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    height: 0.55em;
+    width: 0.55em;
+    border-radius: 9999px;
+    background: var(--color-forest-500);
+  }
+  .prose-lawn ol {
+    list-style: decimal;
+  }
+  .prose-lawn ol li {
+    margin-top: 0.6em;
+    padding-left: 0.4em;
+  }
+  .prose-lawn ol li::marker {
+    color: var(--color-forest-600);
+    font-weight: 700;
+  }
+  .prose-lawn blockquote {
+    border-left: 4px solid var(--color-forest-500);
+    background: var(--color-forest-50);
+    padding: 1.2em 1.5em;
+    border-radius: 0 1rem 1rem 0;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--color-forest-800);
+  }
+  .prose-lawn strong {
+    color: var(--color-forest-900);
+    font-weight: 700;
+  }
+  /* GitHub-style task list checkboxes from markdown */
+  .prose-lawn input[type='checkbox'] {
+    accent-color: var(--color-forest-500);
+    margin-right: 0.5em;
+  }
+  .prose-lawn ul li:has(input[type='checkbox'])::before {
+    display: none;
+  }
+  .prose-lawn ul li:has(input[type='checkbox']) {
+    padding-left: 0;
+  }
+</style>

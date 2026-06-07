@@ -1,0 +1,48 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+---
+
+<ServiceDetail
+  slug="lawn-mowing"
+  title="Lawn Mowing"
+  metaTitle="Professional Lawn Mowing Service in Raleigh, NC"
+  metaDescription="Reliable weekly & bi-weekly lawn mowing in Raleigh, Cary & Durham. Precision cuts, crisp edging, and clean blowdown — every visit. Free estimates. Call Obscura Lawn Care."
+  eyebrow="Lawn Mowing"
+  hero="Precision lawn mowing for a <span class='text-forest-400'>crisp, healthy</span> lawn"
+  heroImage="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=2000&q=80"
+  intro="Consistent, professional mowing on a schedule that keeps your turf dense, even, and weed-resistant all season long — finished with sharp edges and a spotless cleanup."
+  benefits={[
+    { icon: 'mower', title: 'Sharp, Striped Cuts', text: 'Commercial mowers with freshly-sharpened blades for clean cuts that protect grass health — no tearing, no scalping.' },
+    { icon: 'scissors', title: 'Crisp Edging & Trimming', text: 'Every visit includes string trimming and hard-edge work along walks, beds, and driveways for that manicured finish.' },
+    { icon: 'recycle', title: 'Spotless Cleanup', text: 'We blow down all hard surfaces so your clippings end up mulched into the lawn — never on your patio or driveway.' },
+    { icon: 'calendar', title: 'Reliable Scheduling', text: 'Same day each week, automatic rescheduling for rain, and a text when we are on the way.' },
+    { icon: 'droplet', title: 'Mow-Height Strategy', text: 'We adjust cutting height by season and grass type to encourage deep roots and shade out weeds.' },
+    { icon: 'badge-check', title: 'Satisfaction Guaranteed', text: 'Not happy with a cut? We will return and make it right within 48 hours, no charge.' },
+  ]}
+  process={[
+    { title: 'Property Walkthrough', text: 'We measure your turf, note obstacles and bed lines, and set the ideal mow height for your grass type.' },
+    { title: 'Schedule & Confirm', text: 'Choose weekly or bi-weekly service. You get a recurring day and an on-the-way text every visit.' },
+    { title: 'Mow, Edge & Trim', text: 'Our crew mows in alternating patterns, trims every edge, and details around landscaping and structures.' },
+    { title: 'Blow Down & Inspect', text: 'We clear all clippings from hard surfaces and do a final walk to make sure everything is pristine.' },
+  ]}
+  pricing={[
+    { name: 'Standard Yard', price: '$45', unit: '/ visit', features: ['Up to 1/4 acre', 'Mow, edge & trim', 'Full blow-down cleanup', 'Weekly or bi-weekly'] },
+    { name: 'Large Yard', price: '$65', unit: '/ visit', popular: true, features: ['1/4 – 1/2 acre', 'Mow, edge & trim', 'Full blow-down cleanup', 'Pattern striping', 'Priority scheduling'] },
+    { name: 'Estate & Commercial', price: 'Custom', unit: 'quote', features: ['1/2 acre and up', 'Dedicated crew', 'Custom mow patterns', 'Flexible frequency', 'Account manager'] },
+  ]}
+  localCopy={{
+    heading: "The Triangle's most dependable mowing crews",
+    body: [
+      "From the established lawns of Raleigh's historic neighborhoods to new construction in Apex and Wake Forest, our crews understand the warm-season fescue and zoysia turf that define North Carolina lawns.",
+      "We dial in mow heights for the Piedmont's hot, humid summers — cutting high to shade soil and conserve moisture, then adjusting through fall to keep your lawn thick and resilient.",
+      "Every route is built for reliability. Your lawn gets the same crew, the same day, every week — backed by our satisfaction guarantee.",
+    ],
+  }}
+  faqs={[
+    { q: 'How often should my lawn be mowed?', a: 'During peak growing season (spring and early summer) most Triangle lawns benefit from weekly mowing. As growth slows in mid-summer heat and fall, bi-weekly service is often ideal. We will recommend the right cadence during your free walkthrough.' },
+    { q: 'Do you bag the clippings?', a: 'By default we mulch clippings back into the lawn, which returns nitrogen to the soil and promotes healthier turf. Bagging is available on request for an additional fee, ideal for overgrown lawns or leaf-heavy seasons.' },
+    { q: 'What happens if it rains on my service day?', a: 'We automatically reschedule to the next dry day and notify you by text. We never mow saturated turf, which can rut soil and tear grass.' },
+    { q: 'Do I need to be home for service?', a: 'No. As long as we have gate access, you do not need to be home. We will text when we arrive and when we finish.' },
+    { q: 'Are you licensed and insured?', a: 'Absolutely. Obscura Lawn Care is fully licensed and carries comprehensive liability and workers compensation insurance for your complete peace of mind.' },
+  ]}
+/>

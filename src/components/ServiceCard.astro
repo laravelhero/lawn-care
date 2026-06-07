@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+import type { Service } from '../data/site';
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+const iconMap: Record<Service['icon'], string> = {
+  mower: 'mower',
+  landscape: 'landscape',
+  fertilize: 'fertilize',
+  leaf: 'leaf',
+};
+---
+
+<a
+  href={`/services/${service.slug}`}
+  class="group reveal relative flex flex-col overflow-hidden rounded-3xl border border-bone-200 bg-white shadow-card card-hover"
+>
+  <div class="relative h-52 overflow-hidden">
+    <img
+      src={service.image}
+      alt={`${service.title} services`}
+      loading="lazy"
+      class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-forest-950/40 to-transparent"></div>
+  </div>
+
+  <!-- Floating icon badge — sits on the seam, above the white panel (outside the clipped image div) -->
+  <span
+    class="absolute left-6 top-52 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-2xl bg-forest-600 text-white shadow-glow transition-colors group-hover:bg-forest-500"
+  >
+    <Icon name={iconMap[service.icon]} class="h-7 w-7" />
+  </span>
+
+  <div class="flex flex-1 flex-col p-6 pt-10">
+    <h3 class="font-display text-xl font-bold text-forest-900">{service.title}</h3>
+    <p class="mt-2 flex-1 text-sm leading-relaxed text-forest-900/60">{service.short}</p>
+    <div class="mt-5 flex items-center justify-between">
+      <span class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-forest-600">
+        Learn More
+        <Icon name="arrow" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      </span>
+      <span class="text-xs font-semibold text-forest-900/40">from {service.priceFrom}</span>
+    </div>
+  </div>
+</a>

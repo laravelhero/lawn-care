@@ -1,0 +1,67 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  image?: string;
+  crumbs?: { label: string; href?: string }[];
+}
+const {
+  eyebrow,
+  title,
+  subtitle,
+  image = 'https://images.unsplash.com/photo-1560749003-f4b1e17e2dff?auto=format&fit=crop&w=2000&q=80',
+  crumbs = [],
+} = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-forest-950 pt-20">
+  <div class="absolute inset-0 -z-10">
+    <img src={image} alt="" class="h-full w-full object-cover opacity-40" />
+    <div class="absolute inset-0 bg-gradient-to-b from-forest-950/80 via-forest-950/70 to-forest-950"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-forest-950/90 to-transparent"></div>
+  </div>
+
+  <div class="container-px py-20 md:py-28">
+    {
+      crumbs.length > 0 && (
+        <nav aria-label="Breadcrumb" class="mb-6">
+          <ol class="flex flex-wrap items-center gap-2 text-sm text-forest-100/70">
+            {crumbs.map((c, i) => (
+              <li class="flex items-center gap-2">
+                {c.href ? (
+                  <a href={c.href} class="transition-colors hover:text-forest-400">
+                    {c.label}
+                  </a>
+                ) : (
+                  <span class="text-forest-400">{c.label}</span>
+                )}
+                {i < crumbs.length - 1 && <Icon name="chevron-down" class="h-4 w-4 -rotate-90 opacity-50" />}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    {
+      eyebrow && (
+        <span class="eyebrow !text-forest-400">
+          <Icon name="sprout" class="h-4 w-4" />
+          {eyebrow}
+        </span>
+      )
+    }
+    <h1
+      class="mt-4 max-w-4xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl"
+    >
+      <Fragment set:html={title} />
+    </h1>
+    {
+      subtitle && (
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-forest-100/80">{subtitle}</p>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,48 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+---
+
+<ServiceDetail
+  slug="seasonal-cleanups"
+  title="Seasonal Cleanups"
+  metaTitle="Spring & Fall Yard Cleanup Services in Raleigh, NC"
+  metaDescription="Professional spring & fall cleanup in Raleigh, Cary & Durham. Leaf removal, bed cleanup, pruning, mulching & debris haul-away. Get your yard season-ready. Free quote."
+  eyebrow="Seasonal Cleanups"
+  hero="Seasonal cleanups that <span class='text-forest-400'>reset</span> your landscape"
+  heroImage="https://images.unsplash.com/photo-1444492417251-9c84a5fa18e0?auto=format&fit=crop&w=2000&q=80"
+  intro="Spring prep and fall leaf removal that clear debris, protect your turf, refresh your beds, and reset your entire landscape for the season ahead — hauled away and spotless."
+  benefits={[
+    { icon: 'leaf', title: 'Complete Leaf Removal', text: 'Thorough leaf and debris removal from lawns, beds, and hard surfaces — bagged and hauled away.' },
+    { icon: 'scissors', title: 'Pruning & Cutbacks', text: 'Trimming shrubs, cutting back perennials, and shaping ornamentals to set up healthy spring growth.' },
+    { icon: 'recycle', title: 'Bed Refresh & Mulch', text: 'We clear, edge, and re-mulch beds to lock in moisture, suppress weeds, and sharpen curb appeal.' },
+    { icon: 'sprout', title: 'Turf Protection', text: 'Removing matted leaves prevents mold, snow mold, and dead patches over winter and through wet spells.' },
+    { icon: 'calendar', title: 'Spring & Fall Visits', text: 'Two strategic cleanups a year keep your property pristine and your plants healthy year-round.' },
+    { icon: 'badge-check', title: 'Full Haul-Away', text: 'All debris is removed and responsibly disposed of — we leave your property cleaner than we found it.' },
+  ]}
+  process={[
+    { title: 'Property Assessment', text: 'We walk your landscape, identify priority areas, and scope the cleanup to your property and season.' },
+    { title: 'Debris & Leaf Clearing', text: 'Crews remove leaves, sticks, and dead growth from lawns, beds, and hardscapes with commercial equipment.' },
+    { title: 'Prune, Edge & Mulch', text: 'We cut back plants, redefine bed edges, and apply fresh mulch where needed for a finished look.' },
+    { title: 'Haul-Away & Final Sweep', text: 'All debris is loaded and removed, hard surfaces are blown clean, and we do a final quality walk.' },
+  ]}
+  pricing={[
+    { name: 'Spring Cleanup', price: '$120', unit: 'starting', features: ['Leaf & debris removal', 'Bed cleanup & edging', 'Perennial cutback', 'Full haul-away'] },
+    { name: 'Fall Cleanup', price: '$160', unit: 'starting', popular: true, features: ['Full leaf removal', 'Multiple visits available', 'Bed cleanup & pruning', 'Gutter-line clearing', 'Full haul-away'] },
+    { name: 'Cleanup + Mulch', price: 'Custom', unit: 'quote', features: ['Complete cleanup', 'Fresh mulch installation', 'Shrub shaping', 'Drainage clearing', 'Priority scheduling'] },
+  ]}
+  localCopy={{
+    heading: 'Get your Triangle property season-ready',
+    body: [
+      "North Carolina's mature oaks, maples, and pines drop a heavy leaf load every fall — and leaving it on the lawn smothers turf, traps moisture, and invites disease. Our fall cleanups clear it completely, often across multiple visits as leaves continue to fall.",
+      "In spring, we clear the debris winter left behind, cut back spent perennials, sharpen bed edges, and lay fresh mulch so your landscape wakes up clean and ready to grow.",
+      "Serving Raleigh, Durham, Cary, and the surrounding Triangle, our crews come equipped for properties of every size — and everything we clear gets hauled away and responsibly disposed of.",
+    ],
+  }}
+  faqs={[
+    { q: 'When should I schedule fall cleanup?', a: 'In the Triangle, leaf drop typically peaks from mid-October through late November. Many clients book a primary cleanup once most leaves are down, plus an optional final visit. We help you time it for the best result.' },
+    { q: 'Do you remove all the debris from my property?', a: 'Yes. Full haul-away is included — we load all leaves, branches, and clippings and dispose of them responsibly. Your property is left clean, with hard surfaces blown down.' },
+    { q: 'Can I bundle cleanup with mulch installation?', a: 'Absolutely. Spring cleanup paired with fresh mulch is one of our most popular packages — it refreshes curb appeal and protects your beds in one visit.' },
+    { q: 'Do I need both a spring and fall cleanup?', a: 'For most properties, two cleanups a year is ideal: spring to reset after winter, and fall to clear leaves before they damage turf. We can also schedule one-time cleanups as needed.' },
+    { q: 'How is pricing determined?', a: 'Pricing depends on property size, leaf and debris volume, and the scope of pruning or mulching. We provide a clear, no-obligation quote after a quick assessment.' },
+  ]}
+/>

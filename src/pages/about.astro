@@ -1,0 +1,243 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import { business, stats } from '../data/site';
+
+const values = [
+  { icon: 'badge-check', title: 'Quality First', text: 'We treat every lawn like our own — meticulous, consistent, and never rushed.' },
+  { icon: 'clock', title: 'Reliability', text: 'On time, every time. The same trusted crew, the same dependable schedule.' },
+  { icon: 'recycle', title: 'Sustainability', text: 'Soil-tested programs and native plantings that respect the land and use less.' },
+  { icon: 'users', title: 'Community', text: 'Locally owned and deeply invested in the neighborhoods we serve.' },
+];
+
+const team = [
+  {
+    name: 'Marcus Bennett',
+    role: 'Founder & Lead Horticulturist',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
+    bio: 'A certified turf specialist with 20 years in the green industry, Marcus founded Obscura on a simple promise: premium results, honest service.',
+  },
+  {
+    name: 'Elena Ramirez',
+    role: 'Landscape Design Director',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
+    bio: 'Elena translates each client’s vision into living, breathing landscapes — blending native plantings with timeless hardscape design.',
+  },
+  {
+    name: 'Tyler Brooks',
+    role: 'Operations & Crew Lead',
+    image: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=600&q=80',
+    bio: 'Tyler keeps every route running like clockwork, ensuring crews arrive prepared, on time, and ready to deliver flawless work.',
+  },
+  {
+    name: 'Sarah Okafor',
+    role: 'Client Success Manager',
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80',
+    bio: 'Sarah is the friendly voice behind every quote and check-in, making sure your experience is as polished as your lawn.',
+  },
+];
+
+const milestones = [
+  { year: '2009', title: 'Obscura is founded', text: 'Marcus starts with a single truck and a commitment to do lawn care the right way.' },
+  { year: '2014', title: 'Landscaping division launches', text: 'We expand from maintenance into full design-build landscaping.' },
+  { year: '2019', title: '1,000th lawn serviced', text: 'A decade in, our reputation for reliability fuels word-of-mouth growth across the Triangle.' },
+  { year: '2024', title: 'Going green, literally', text: 'We adopt soil-test-driven programs and native-first design as company standard.' },
+];
+
+const certs = ['Licensed & Insured', 'NC Certified Turfgrass Pro', 'EPA-Conscious Practices', 'OSHA-Trained Crews'];
+
+const schema = [
+  {
+    '@type': 'AboutPage',
+    name: `About ${business.name}`,
+    url: `${business.url}/about`,
+  },
+];
+---
+
+<Layout
+  title="About Our Local Lawn Care Experts"
+  description="Meet Obscura Lawn Care — locally owned and trusted across the Triangle since 2009. Learn our story, values, and the expert team behind your beautiful lawn."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="About Us"
+    title="Locally owned, <span class='text-forest-400'>obsessively</span> dedicated to your lawn"
+    subtitle="Since 2009, we've grown the Triangle's healthiest, most beautiful lawns — one property, and one relationship, at a time."
+    image="https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=2000&q=80"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'About Us' }]}
+  />
+
+  <!-- Story -->
+  <section class="section-py bg-white">
+    <div class="container-px grid items-center gap-14 lg:grid-cols-2">
+      <div class="reveal relative">
+        <div class="overflow-hidden rounded-[2rem] shadow-premium">
+          <img
+            src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1100&q=80"
+            alt="Obscura Lawn Care crew working on a lush green property"
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="absolute -bottom-6 -left-2 rounded-2xl bg-forest-600 p-6 text-white shadow-premium sm:-left-6">
+          <p class="font-display text-3xl font-extrabold">Since 2009</p>
+          <p class="mt-1 text-sm text-forest-100/80">Proudly serving<br />the Triangle</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow"><Icon name="sprout" class="h-4 w-4" />Our Story</span>
+        <h2 class="mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-forest-900 sm:text-5xl">
+          Built on care, grown by reputation
+        </h2>
+        <div class="mt-6 space-y-4 text-lg leading-relaxed text-forest-900/70">
+          <p>
+            Obscura Lawn Care began with one truck, one mower, and one belief: that homeowners
+            deserve a lawn company that actually shows up — and actually cares.
+          </p>
+          <p>
+            Fifteen years later, that belief still drives everything we do. We've grown into a
+            full-service team of horticulturists, designers, and crew professionals, but we've never
+            outgrown the personal, white-glove service our first clients fell in love with.
+          </p>
+          <p>
+            Today we care for thousands of lawns across Raleigh, Durham, Cary, and beyond — and we
+            still treat every single one like it's the only one that matters.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="bg-forest-800">
+    <div class="container-px grid grid-cols-2 gap-8 py-16 lg:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="reveal text-center">
+            <p class="font-display text-5xl font-extrabold text-forest-400">{s.value}</p>
+            <p class="mt-2 text-sm font-medium uppercase tracking-wider text-forest-100/70">{s.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Our Values"
+        title="The principles behind every visit"
+        subtitle="These aren't words on a wall — they're the standard we hold ourselves to on every property, every day."
+      />
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          values.map((v) => (
+            <div class="reveal rounded-3xl border border-bone-200 bg-white p-8 text-center card-hover">
+              <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-forest-50 text-forest-600">
+                <Icon name={v.icon} class="h-8 w-8" />
+              </span>
+              <h3 class="mt-5 font-display text-xl font-bold text-forest-900">{v.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-forest-900/60">{v.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section-py bg-white">
+    <div class="container-px">
+      <SectionHeading eyebrow="Our Journey" title="Fifteen years in the making" />
+      <div class="mx-auto mt-16 max-w-3xl">
+        {
+          milestones.map((m, i) => (
+            <div class="reveal relative flex gap-6 pb-10 last:pb-0">
+              <div class="flex flex-col items-center">
+                <span class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-forest-600 font-display text-sm font-bold text-white">
+                  {m.year}
+                </span>
+                {i < milestones.length - 1 && <span class="mt-2 w-px flex-1 bg-forest-200" />}
+              </div>
+              <div class="pt-2">
+                <h3 class="font-display text-xl font-bold text-forest-900">{m.title}</h3>
+                <p class="mt-1.5 text-forest-900/65">{m.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Meet the Team"
+        title="The experts behind your lawn"
+        subtitle="Certified, friendly, and genuinely passionate about beautiful outdoor spaces."
+      />
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          team.map((member) => (
+            <div class="group reveal overflow-hidden rounded-3xl border border-bone-200 bg-white shadow-card card-hover">
+              <div class="relative h-64 overflow-hidden">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-forest-950/70 to-transparent" />
+                <div class="absolute inset-x-0 bottom-0 p-5">
+                  <h3 class="font-display text-lg font-bold text-white">{member.name}</h3>
+                  <p class="text-sm font-medium text-forest-300">{member.role}</p>
+                </div>
+              </div>
+              <p class="p-5 text-sm leading-relaxed text-forest-900/65">{member.bio}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Standards / equipment -->
+  <section class="section-py bg-forest-950 text-white">
+    <div class="container-px grid items-center gap-14 lg:grid-cols-2">
+      <div class="reveal">
+        <span class="eyebrow !text-forest-400"><Icon name="shield" class="h-4 w-4" />Standards & Equipment</span>
+        <h2 class="mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl">
+          Professional gear, professional standards
+        </h2>
+        <p class="mt-5 text-lg text-forest-100/80">
+          We invest in commercial-grade, well-maintained equipment and ongoing crew training — because
+          premium results require premium tools and people who know how to use them.
+        </p>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2">
+          {
+            certs.map((c) => (
+              <div class="flex items-center gap-3 rounded-xl border border-forest-800/60 bg-forest-900/40 px-4 py-3">
+                <Icon name="badge-check" class="h-5 w-5 flex-shrink-0 text-forest-400" />
+                <span class="text-sm font-semibold">{c}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="reveal overflow-hidden rounded-[2rem] shadow-premium">
+        <img
+          src="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=1100&q=80"
+          alt="Professional commercial lawn care equipment"
+          loading="lazy"
+          class="h-full w-full object-cover"
+        />
+      </div>
+    </div>
+  </section>
+</Layout>

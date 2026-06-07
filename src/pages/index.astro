@@ -1,0 +1,419 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { business, services, stats } from '../data/site';
+
+const heroBadges = [
+  { icon: 'shield', title: 'Reliable Service', text: 'On time, every time' },
+  { icon: 'users', title: 'Expert Team', text: 'Trained professionals' },
+  { icon: 'badge-check', title: 'Quality Guaranteed', text: 'Satisfaction always' },
+  { icon: 'sprout', title: 'Locally Owned', text: 'Proudly in your community' },
+];
+
+const trustBar = [
+  { icon: 'shield', label: 'Licensed & Insured' },
+  { icon: 'badge-check', label: 'Satisfaction Guaranteed' },
+  { icon: 'ruler', label: 'Free Estimates' },
+];
+
+const process = [
+  {
+    step: '01',
+    icon: 'phone',
+    title: 'Request a Quote',
+    text: 'Tell us about your property and goals. We respond fast with a transparent, no-pressure estimate.',
+  },
+  {
+    step: '02',
+    icon: 'calendar',
+    title: 'Custom Care Plan',
+    text: 'We assess your turf and soil, then build a tailored maintenance schedule designed for your lawn.',
+  },
+  {
+    step: '03',
+    icon: 'mower',
+    title: 'Expert Service',
+    text: 'Our trained crews arrive on schedule with professional-grade equipment and meticulous attention.',
+  },
+  {
+    step: '04',
+    icon: 'sprout',
+    title: 'Thriving Lawn',
+    text: 'Enjoy a lush, healthy, head-turning landscape — backed by our 100% satisfaction guarantee.',
+  },
+];
+
+const featuredProjects = [
+  {
+    title: 'Estate Lawn Renovation',
+    location: 'Raleigh, NC',
+    image: 'https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=900&q=80',
+    tag: 'Full Renovation',
+  },
+  {
+    title: 'Modern Backyard Hardscape',
+    location: 'Cary, NC',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80',
+    tag: 'Landscaping',
+  },
+  {
+    title: 'Commercial Grounds Program',
+    location: 'Durham, NC',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=80',
+    tag: 'Maintenance',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'WebSite',
+    '@id': `${business.url}/#website`,
+    url: business.url,
+    name: business.name,
+    publisher: { '@id': `${business.url}/#business` },
+  },
+];
+---
+
+<Layout
+  title="Premium Lawn Care & Landscaping in Raleigh"
+  description="Obscura Lawn Care delivers expert lawn maintenance, landscaping, fertilization & seasonal cleanups across the Triangle. Licensed, insured & guaranteed. Get a free quote today."
+  schema={schema}
+>
+  <!-- ============================ HERO ============================ -->
+  <section class="relative isolate flex min-h-[92vh] items-center overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <img
+        src="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=2400&q=85"
+        alt="Beautifully manicured estate lawn with lush green grass"
+        class="h-full w-full object-cover"
+        fetchpriority="high"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-forest-950 via-forest-950/85 to-forest-950/30"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-transparent to-forest-950/40"></div>
+    </div>
+
+    <div class="container-px w-full pt-28 pb-16">
+      <div class="max-w-2xl">
+        <span class="eyebrow !text-forest-400 animate-fade-in">
+          <span class="h-px w-8 bg-forest-400"></span>
+          Premium Lawn Care Services
+        </span>
+        <h1
+          class="mt-6 font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-white sm:text-6xl lg:text-7xl"
+          style="animation: var(--animate-fade-up)"
+        >
+          Beautiful Lawns.<br />Built with <span class="text-forest-400">Care.</span>
+        </h1>
+        <p
+          class="mt-7 max-w-xl text-lg leading-relaxed text-forest-100/85"
+          style="animation: var(--animate-fade-up); animation-delay: 0.1s"
+        >
+          {business.name} delivers expert lawn maintenance and landscaping services that keep your
+          property healthy, vibrant, and beautiful all year long.
+        </p>
+        <div
+          class="mt-9 flex flex-wrap gap-4"
+          style="animation: var(--animate-fade-up); animation-delay: 0.2s"
+        >
+          <a href="/contact" class="btn-primary !px-8 !py-4 !text-base">
+            Get a Free Quote
+            <Icon name="arrow" class="h-5 w-5" />
+          </a>
+          <a href="/services" class="btn-secondary !px-8 !py-4 !text-base">
+            Our Services
+            <Icon name="arrow" class="h-5 w-5" />
+          </a>
+        </div>
+
+        <!-- Hero trust badges -->
+        <div
+          class="mt-14 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4"
+          style="animation: var(--animate-fade-in); animation-delay: 0.4s"
+        >
+          {
+            heroBadges.map((b) => (
+              <div class="flex items-start gap-3">
+                <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-forest-500/15 text-forest-400">
+                  <Icon name={b.icon} class="h-5 w-5" />
+                </span>
+                <div>
+                  <p class="text-sm font-bold text-white">{b.title}</p>
+                  <p class="text-xs text-forest-100/60">{b.text}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-8 left-1/2 hidden -translate-x-1/2 lg:block">
+      <div class="flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/30 p-1.5">
+        <span class="h-2 w-1 animate-bounce rounded-full bg-white/70"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TRUST BAR ============================ -->
+  <section class="border-b border-bone-200 bg-white">
+    <div class="container-px flex flex-col items-center justify-center gap-6 py-7 sm:flex-row sm:gap-14">
+      {
+        trustBar.map((t) => (
+          <div class="flex items-center gap-3">
+            <Icon name={t.icon} class="h-6 w-6 text-forest-600" />
+            <span class="font-display font-bold text-forest-900">{t.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============================ SERVICES ============================ -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Our Services"
+        title="Complete Lawn Care Solutions"
+        subtitle="From routine maintenance to full-scale transformations, we keep your outdoor spaces healthy, green, and beautiful."
+      />
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+      <div class="reveal mt-12 text-center">
+        <a href="/services" class="btn-outline">
+          View All Services
+          <Icon name="arrow" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ WHY US (split) ============================ -->
+  <section class="section-py overflow-hidden bg-white">
+    <div class="container-px grid items-center gap-14 lg:grid-cols-2">
+      <div class="reveal relative">
+        <div class="overflow-hidden rounded-[2rem] shadow-premium">
+          <img
+            src="https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=1100&q=80"
+            alt="Professional lawn care technician edging a pristine lawn"
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <!-- Floating stat card -->
+        <div
+          class="absolute -bottom-6 -right-2 rounded-2xl bg-forest-800 p-6 text-white shadow-premium sm:-right-6"
+        >
+          <p class="font-display text-4xl font-extrabold text-forest-400">15+</p>
+          <p class="mt-1 text-sm text-forest-100/80">Years growing<br />the Triangle's best lawns</p>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <span class="eyebrow">
+          <Icon name="sprout" class="h-4 w-4" />
+          Why Obscura
+        </span>
+        <h2
+          class="mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-forest-900 sm:text-5xl"
+        >
+          A greener lawn, without the guesswork
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-forest-900/65">
+          We combine horticultural expertise with reliable, white-glove service. Every program is
+          built around your specific turf, soil, and goals — never a one-size-fits-all spray-and-go.
+        </p>
+
+        <ul class="mt-8 space-y-5">
+          {
+            [
+              {
+                title: 'Tailored, soil-tested programs',
+                text: 'We test before we treat, so your lawn gets exactly what it needs — nothing wasted.',
+              },
+              {
+                title: 'Trained, background-checked crews',
+                text: 'The same friendly professionals on your property, equipped with commercial-grade gear.',
+              },
+              {
+                title: '100% satisfaction guarantee',
+                text: "If you're not thrilled with a visit, we'll make it right at no extra cost.",
+              },
+            ].map((f) => (
+              <li class="flex gap-4">
+                <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-forest-100 text-forest-600">
+                  <Icon name="check" class="h-5 w-5" />
+                </span>
+                <div>
+                  <p class="font-display text-lg font-bold text-forest-900">{f.title}</p>
+                  <p class="mt-1 text-forest-900/65">{f.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a href="/about" class="btn-dark mt-9">
+          Learn About Us
+          <Icon name="arrow" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ STATS ============================ -->
+  <section class="bg-forest-800">
+    <div class="container-px grid grid-cols-2 gap-8 py-16 lg:grid-cols-4">
+      {
+        stats.map((s) => (
+          <div class="reveal text-center">
+            <p class="font-display text-5xl font-extrabold text-forest-400">{s.value}</p>
+            <p class="mt-2 text-sm font-medium uppercase tracking-wider text-forest-100/70">{s.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============================ PROCESS ============================ -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Our Process"
+        title="Four simple steps to your best lawn"
+        subtitle="We've refined our approach over 15 years to make premium lawn care effortless for you."
+      />
+      <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {
+          process.map((p, i) => (
+            <div
+              class="reveal relative rounded-3xl border border-bone-200 bg-white p-8 card-hover"
+              style={`transition-delay:${i * 60}ms`}
+            >
+              <span class="font-display text-6xl font-extrabold text-forest-100">{p.step}</span>
+              <span class="absolute right-8 top-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-50 text-forest-600">
+                <Icon name={p.icon} class="h-6 w-6" />
+              </span>
+              <h3 class="mt-4 font-display text-xl font-bold text-forest-900">{p.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-forest-900/60">{p.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PROJECTS PREVIEW ============================ -->
+  <section class="section-py bg-white">
+    <div class="container-px">
+      <div class="reveal flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <div>
+          <span class="eyebrow">
+            <Icon name="sprout" class="h-4 w-4" />
+            Recent Work
+          </span>
+          <h2 class="mt-4 font-display text-4xl font-extrabold tracking-tight text-forest-900 sm:text-5xl">
+            Lawns we're proud of
+          </h2>
+        </div>
+        <a href="/projects" class="btn-outline">
+          View All Projects
+          <Icon name="arrow" class="h-4 w-4" />
+        </a>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        {
+          featuredProjects.map((p) => (
+            <a href="/projects" class="group reveal relative block overflow-hidden rounded-3xl shadow-card">
+              <div class="aspect-[4/5] overflow-hidden">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/10 to-transparent" />
+              <div class="absolute inset-x-0 bottom-0 p-6">
+                <span class="inline-block rounded-full bg-forest-500 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                  {p.tag}
+                </span>
+                <h3 class="mt-3 font-display text-xl font-bold text-white">{p.title}</h3>
+                <p class="mt-1 flex items-center gap-1.5 text-sm text-forest-100/80">
+                  <Icon name="map-pin" class="h-4 w-4" />
+                  {p.location}
+                </p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TESTIMONIALS ============================ -->
+  <Testimonials />
+
+  <!-- ============================ LEAD CAPTURE ============================ -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px grid items-center gap-14 lg:grid-cols-2">
+      <div class="reveal">
+        <span class="eyebrow">
+          <Icon name="sprout" class="h-4 w-4" />
+          Free Estimate
+        </span>
+        <h2
+          class="mt-4 font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-forest-900 sm:text-5xl"
+        >
+          Let's build your dream lawn together
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-forest-900/65">
+          Tell us a little about your property and we'll get back to you within one business day with
+          a transparent, no-obligation quote.
+        </p>
+
+        <div class="mt-8 space-y-4">
+          {
+            [
+              { icon: 'phone', label: 'Call us directly', value: business.phone, href: business.phoneHref },
+              { icon: 'mail', label: 'Email the team', value: business.email, href: business.emailHref },
+              {
+                icon: 'map-pin',
+                label: 'Serving',
+                value: business.serviceArea.slice(0, 4).join(', ') + ' & more',
+                href: undefined,
+              },
+            ].map((c) => (
+              <div class="flex items-center gap-4">
+                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-forest-600 shadow-card">
+                  <Icon name={c.icon} class="h-6 w-6" />
+                </span>
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-forest-900/50">{c.label}</p>
+                  {c.href ? (
+                    <a href={c.href} class="font-display text-lg font-bold text-forest-900 hover:text-forest-600">
+                      {c.value}
+                    </a>
+                  ) : (
+                    <p class="font-display text-lg font-bold text-forest-900">{c.value}</p>
+                  )}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="reveal">
+        <LeadForm />
+      </div>
+    </div>
+  </section>
+</Layout>

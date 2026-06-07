@@ -1,0 +1,283 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { business, services } from '../data/site';
+
+const contactCards = [
+  { icon: 'phone', label: 'Call us', value: business.phone, href: business.phoneHref, note: 'Mon–Fri 7am–6pm' },
+  { icon: 'mail', label: 'Email us', value: business.email, href: business.emailHref, note: 'Replies within 24h' },
+  { icon: 'map-pin', label: 'Visit us', value: `${business.address.city}, ${business.address.region}`, href: '#map', note: business.address.street },
+];
+
+const schema = [
+  {
+    '@type': 'ContactPage',
+    name: `Contact ${business.name}`,
+    url: `${business.url}/contact`,
+  },
+];
+
+const propertyTypes = ['Residential', 'Commercial', 'HOA / Multi-unit'];
+const lawnSizes = ['Under 1/4 acre', '1/4 – 1/2 acre', '1/2 – 1 acre', 'Over 1 acre'];
+---
+
+<Layout
+  title="Contact Us — Free Lawn Care Quote"
+  description="Get a free, no-obligation lawn care quote from Obscura Lawn Care. Call, email, or use our quick multi-step form. Serving Raleigh, Durham, Cary & the Triangle."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Contact Us"
+    title="Let's grow something <span class='text-forest-400'>beautiful</span>"
+    subtitle="Request your free quote in under a minute, or reach out directly — our friendly team is ready to help."
+    image="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=2000&q=80"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+  />
+
+  <!-- Contact cards -->
+  <section class="bg-white">
+    <div class="container-px -mt-12 grid gap-5 sm:grid-cols-3">
+      {
+        contactCards.map((c) => (
+          <a
+            href={c.href}
+            class="reveal flex items-start gap-4 rounded-2xl border border-bone-200 bg-white p-6 shadow-premium card-hover"
+          >
+            <span class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-forest-50 text-forest-600">
+              <Icon name={c.icon} class="h-6 w-6" />
+            </span>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-forest-900/50">{c.label}</p>
+              <p class="font-display text-lg font-bold text-forest-900">{c.value}</p>
+              <p class="text-sm text-forest-900/55">{c.note}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Form + info -->
+  <section class="section-py bg-white">
+    <div class="container-px grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+      <!-- Multi-step form -->
+      <div class="reveal rounded-[2rem] border border-bone-200 bg-bone-50 p-6 shadow-card sm:p-10">
+        <div
+          x-data={`{
+            step: 1,
+            total: 3,
+            sent: false,
+            form: { property: '', service: '', size: '', name: '', phone: '', email: '', notes: '' },
+            get pct() { return (this.step / this.total) * 100 },
+            next() { if (this.step < this.total) this.step++ },
+            back() { if (this.step > 1) this.step-- },
+            submit() { this.sent = true }
+          }`}
+        >
+          <!-- Progress -->
+          <div x-show="!sent">
+            <div class="flex items-center justify-between">
+              <h2 class="font-display text-2xl font-extrabold text-forest-900">Get your free quote</h2>
+              <span class="text-sm font-semibold text-forest-900/50" x-text="`Step ${step} of ${total}`"></span>
+            </div>
+            <div class="mt-4 h-2 overflow-hidden rounded-full bg-bone-200">
+              <div class="h-full rounded-full bg-forest-500 transition-all duration-500" :style="`width: ${pct}%`"></div>
+            </div>
+          </div>
+
+          <form @submit.prevent="submit()" class="mt-8">
+            <!-- Step 1: about the property -->
+            <div x-show="step === 1 && !sent" x-transition>
+              <h3 class="font-display text-lg font-bold text-forest-900">Tell us about your property</h3>
+              <div class="mt-5 space-y-5">
+                <div>
+                  <label class="mb-2 block text-sm font-semibold text-forest-900">Property type</label>
+                  <div class="grid grid-cols-3 gap-3">
+                    {propertyTypes.map((t) => (
+                      <button
+                        type="button"
+                        @click={`form.property = '${t}'`}
+                        :class={`form.property === '${t}' ? 'border-forest-500 bg-forest-50 text-forest-700' : 'border-bone-200 bg-white text-forest-900/70'`}
+                        class="rounded-xl border px-3 py-3 text-sm font-semibold transition"
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label for="c-service" class="mb-2 block text-sm font-semibold text-forest-900">Service needed</label>
+                  <select id="c-service" x-model="form.service" class="w-full rounded-xl border border-bone-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-400/30">
+                    <option value="">Select a service…</option>
+                    {services.map((s) => <option value={s.title}>{s.title}</option>)}
+                    <option value="Multiple / Not sure">Multiple / Not sure</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="mb-2 block text-sm font-semibold text-forest-900">Approximate lawn size</label>
+                  <div class="grid grid-cols-2 gap-3">
+                    {lawnSizes.map((s) => (
+                      <button
+                        type="button"
+                        @click={`form.size = '${s}'`}
+                        :class={`form.size === '${s}' ? 'border-forest-500 bg-forest-50 text-forest-700' : 'border-bone-200 bg-white text-forest-900/70'`}
+                        class="rounded-xl border px-3 py-3 text-sm font-semibold transition"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: contact details -->
+            <div x-show="step === 2 && !sent" x-transition x-cloak>
+              <h3 class="font-display text-lg font-bold text-forest-900">How can we reach you?</h3>
+              <div class="mt-5 space-y-5">
+                <div>
+                  <label for="c-name" class="mb-1.5 block text-sm font-semibold text-forest-900">Full name</label>
+                  <input id="c-name" type="text" x-model="form.name" placeholder="Jane Doe" class="w-full rounded-xl border border-bone-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-400/30" />
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label for="c-phone" class="mb-1.5 block text-sm font-semibold text-forest-900">Phone</label>
+                    <input id="c-phone" type="tel" x-model="form.phone" placeholder="(555) 123-4567" class="w-full rounded-xl border border-bone-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-400/30" />
+                  </div>
+                  <div>
+                    <label for="c-email" class="mb-1.5 block text-sm font-semibold text-forest-900">Email</label>
+                    <input id="c-email" type="email" x-model="form.email" placeholder="jane@email.com" class="w-full rounded-xl border border-bone-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-400/30" />
+                  </div>
+                </div>
+                <div>
+                  <label for="c-notes" class="mb-1.5 block text-sm font-semibold text-forest-900">Anything else? (optional)</label>
+                  <textarea id="c-notes" rows="3" x-model="form.notes" placeholder="Tell us about your goals, timeline, or any specifics…" class="w-full rounded-xl border border-bone-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest-500 focus:ring-2 focus:ring-forest-400/30"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: review -->
+            <div x-show="step === 3 && !sent" x-transition x-cloak>
+              <h3 class="font-display text-lg font-bold text-forest-900">Review &amp; submit</h3>
+              <dl class="mt-5 space-y-3 rounded-2xl border border-bone-200 bg-white p-5 text-sm">
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Property</dt><dd class="font-semibold text-forest-900" x-text="form.property || '—'"></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Service</dt><dd class="font-semibold text-forest-900" x-text="form.service || '—'"></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Lawn size</dt><dd class="font-semibold text-forest-900" x-text="form.size || '—'"></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Name</dt><dd class="font-semibold text-forest-900" x-text="form.name || '—'"></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Phone</dt><dd class="font-semibold text-forest-900" x-text="form.phone || '—'"></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-forest-900/55">Email</dt><dd class="font-semibold text-forest-900" x-text="form.email || '—'"></dd></div>
+              </dl>
+              <label class="mt-4 flex items-start gap-3 text-sm text-forest-900/65">
+                <input type="checkbox" required class="mt-0.5 h-4 w-4 rounded border-bone-200 text-forest-600 focus:ring-forest-400" />
+                I agree to be contacted about my quote request.
+              </label>
+            </div>
+
+            <!-- Nav buttons -->
+            <div x-show="!sent" class="mt-8 flex items-center justify-between gap-4">
+              <button type="button" @click="back()" x-show="step > 1" class="btn-outline !py-3">
+                <Icon name="arrow" class="h-4 w-4 rotate-180" />
+                Back
+              </button>
+              <div class="ml-auto">
+                <button type="button" @click="next()" x-show="step < total" class="btn-primary !py-3">
+                  Continue
+                  <Icon name="arrow" class="h-4 w-4" />
+                </button>
+                <button type="submit" x-show="step === total" class="btn-primary !py-3">
+                  Submit Request
+                  <Icon name="check" class="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Success -->
+          <div x-show="sent" x-cloak x-transition class="py-10 text-center">
+            <span class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-forest-100 text-forest-600">
+              <Icon name="check" class="h-10 w-10" />
+            </span>
+            <h3 class="mt-6 font-display text-2xl font-extrabold text-forest-900">Thank you!</h3>
+            <p class="mx-auto mt-2 max-w-md text-forest-900/65">
+              Your quote request is in. A member of the Obscura team will reach out within one business
+              day. Need us sooner? Call <a href={business.phoneHref} class="font-semibold text-forest-600">{business.phone}</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side info -->
+      <div class="reveal space-y-6">
+        <div class="rounded-3xl border border-bone-200 bg-bone-50 p-7">
+          <h3 class="flex items-center gap-2 font-display text-lg font-bold text-forest-900">
+            <Icon name="clock" class="h-5 w-5 text-forest-600" />
+            Business Hours
+          </h3>
+          <ul class="mt-4 space-y-3">
+            {
+              business.hours.map((h) => (
+                <li class="flex justify-between border-b border-bone-200 pb-3 text-sm last:border-0 last:pb-0">
+                  <span class="font-medium text-forest-900/75">{h.day}</span>
+                  <span class="font-semibold text-forest-900">{h.time}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="rounded-3xl border border-bone-200 bg-bone-50 p-7">
+          <h3 class="flex items-center gap-2 font-display text-lg font-bold text-forest-900">
+            <Icon name="map-pin" class="h-5 w-5 text-forest-600" />
+            Service Area
+          </h3>
+          <p class="mt-3 text-sm text-forest-900/65">Proudly serving the greater Triangle, including:</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {
+              business.serviceArea.map((a) => (
+                <span class="rounded-full bg-white px-3 py-1.5 text-sm font-medium text-forest-700 shadow-sm">{a}</span>
+              ))
+            }
+          </div>
+        </div>
+
+        <a href={business.phoneHref} class="block rounded-3xl bg-forest-800 p-7 text-white transition-colors hover:bg-forest-900">
+          <Icon name="phone" class="h-7 w-7 text-forest-400" />
+          <p class="mt-4 text-sm text-forest-100/70">Prefer to talk? Call us now</p>
+          <p class="font-display text-2xl font-extrabold">{business.phone}</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map placeholder -->
+  <section id="map" class="bg-bone-50 pb-20">
+    <div class="container-px">
+      <div class="relative aspect-[21/9] overflow-hidden rounded-[2rem] border border-bone-200 shadow-card">
+        <img
+          src="https://images.unsplash.com/photo-1524813686514-a57563d77965?auto=format&fit=crop&w=2000&q=80"
+          alt="Map of our Triangle service area"
+          loading="lazy"
+          class="h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-forest-950/40"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white">
+          <span class="flex h-16 w-16 animate-float items-center justify-center rounded-full bg-forest-500 shadow-glow">
+            <Icon name="map-pin" class="h-8 w-8" />
+          </span>
+          <p class="mt-4 font-display text-2xl font-bold">{business.address.street}</p>
+          <p class="text-forest-100/85">{business.address.city}, {business.address.region} {business.address.postalCode}</p>
+          <a
+            href={`https://maps.google.com/?q=${encodeURIComponent(business.address.street + ', ' + business.address.city + ', ' + business.address.region)}`}
+            target="_blank"
+            rel="noopener"
+            class="btn-primary mt-5 !bg-white !text-forest-800 hover:!bg-bone-100"
+          >
+            Open in Google Maps
+            <Icon name="arrow-up-right" class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

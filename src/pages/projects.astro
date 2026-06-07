@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
+import { business } from '../data/site';
+
+const projects = [
+  {
+    title: 'Overgrown Lot to Estate Lawn',
+    location: 'Raleigh, NC',
+    sqft: '14,500 sq ft',
+    services: ['Renovation', 'Fertilization', 'Mowing'],
+    result: 'Weed-choked turf rebuilt into a dense, deep-green fescue lawn in a single season.',
+    before: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1000&q=80',
+    after: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=1000&q=80',
+  },
+  {
+    title: 'Tired Front Yard Redesign',
+    location: 'Cary, NC',
+    sqft: '3,200 sq ft',
+    services: ['Landscaping', 'Hardscape', 'Mulching'],
+    result: 'A flat, plain frontage transformed with native beds, a paver walkway, and layered plantings.',
+    before: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1000&q=80',
+    after: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
+  },
+  {
+    title: 'Backyard Living Transformation',
+    location: 'Durham, NC',
+    sqft: '6,800 sq ft',
+    services: ['Hardscape', 'Landscaping', 'Drainage'],
+    result: 'An unused, soggy backyard became a patio retreat with proper drainage and lush borders.',
+    before: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1000&q=80',
+    after: 'https://images.unsplash.com/photo-1560749003-f4b1e17e2dff?auto=format&fit=crop&w=1000&q=80',
+  },
+];
+
+const showcase = [
+  { title: 'Striped Championship Lawn', tag: 'Mowing', image: 'https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=900&q=80' },
+  { title: 'Native Pollinator Border', tag: 'Landscaping', image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80' },
+  { title: 'Flagstone Garden Path', tag: 'Hardscape', image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=900&q=80' },
+  { title: 'Autumn Estate Cleanup', tag: 'Cleanups', image: 'https://images.unsplash.com/photo-1444492417251-9c84a5fa18e0?auto=format&fit=crop&w=900&q=80' },
+  { title: 'Lush Backyard Renewal', tag: 'Renovation', image: 'https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=900&q=80' },
+  { title: 'Manicured Commercial Grounds', tag: 'Maintenance', image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80' },
+];
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    name: 'Our Work & Case Studies',
+    url: `${business.url}/projects`,
+  },
+];
+---
+
+<Layout
+  title="Our Work — Lawn Care Projects & Case Studies"
+  description="See real before-and-after transformations from Obscura Lawn Care across Raleigh, Cary & Durham. Lawn renovations, landscaping, and hardscape projects with measurable results."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Our Work"
+    title="Real lawns. <span class='text-forest-400'>Real</span> transformations."
+    subtitle="Drag the sliders to see the difference our team makes. Every project is a property we're proud to put our name on."
+    image="https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?auto=format&fit=crop&w=2000&q=80"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Our Work' }]}
+  />
+
+  <!-- Before / After case studies -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Case Studies"
+        title="Before &amp; after"
+        subtitle="Slide to reveal the transformation — these are real Triangle properties, real results."
+      />
+      <div class="mt-16 space-y-16">
+        {
+          projects.map((p, i) => (
+            <div class:list={['reveal grid items-center gap-10 lg:grid-cols-2', i % 2 === 1 && 'lg:[&>*:first-child]:order-2']}>
+              <!-- Slider -->
+              <div
+                class="relative aspect-[4/3] select-none overflow-hidden rounded-[2rem] shadow-premium"
+                x-data="{ pos: 50 }"
+              >
+                <!-- After (full) -->
+                <img src={p.after} alt={`${p.title} — after`} loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+                <span class="absolute right-4 top-4 rounded-full bg-forest-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">After</span>
+                <!-- Before (clipped) -->
+                <div class="absolute inset-0 overflow-hidden" :style="`width: ${pos}%`">
+                  <img src={p.before} alt={`${p.title} — before`} loading="lazy" class="absolute inset-0 h-full w-full max-w-none object-cover" :style="`width: ${10000/pos}%`" />
+                  <span class="absolute left-4 top-4 rounded-full bg-forest-950/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">Before</span>
+                </div>
+                <!-- Handle -->
+                <div class="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-lg" :style="`left: ${pos}%`">
+                  <span class="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-forest-800 shadow-premium">
+                    <Icon name="arrow" class="h-4 w-4 -ml-1 rotate-180" />
+                    <Icon name="arrow" class="h-4 w-4 -mr-1" />
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  x-model="pos"
+                  aria-label={`Reveal slider for ${p.title}`}
+                  class="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+                />
+              </div>
+
+              <!-- Details -->
+              <div>
+                <div class="flex flex-wrap gap-2">
+                  {p.services.map((s) => (
+                    <span class="rounded-full bg-forest-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-forest-700">{s}</span>
+                  ))}
+                </div>
+                <h3 class="mt-4 font-display text-3xl font-extrabold tracking-tight text-forest-900">{p.title}</h3>
+                <div class="mt-4 flex flex-wrap gap-6 text-sm">
+                  <span class="flex items-center gap-2 text-forest-900/70">
+                    <Icon name="map-pin" class="h-4 w-4 text-forest-500" />
+                    {p.location}
+                  </span>
+                  <span class="flex items-center gap-2 text-forest-900/70">
+                    <Icon name="ruler" class="h-4 w-4 text-forest-500" />
+                    {p.sqft}
+                  </span>
+                </div>
+                <p class="mt-5 text-lg leading-relaxed text-forest-900/70">{p.result}</p>
+                <a href="/contact" class="btn-outline mt-7">
+                  Start Your Project
+                  <Icon name="arrow" class="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase grid -->
+  <section class="section-py bg-white">
+    <div class="container-px">
+      <SectionHeading eyebrow="Showcase" title="More of our handiwork" />
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          showcase.map((s) => (
+            <div class="group reveal relative overflow-hidden rounded-3xl shadow-card">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src={s.image} alt={s.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-forest-950/85 via-transparent to-transparent" />
+              <div class="absolute inset-x-0 bottom-0 p-5">
+                <span class="inline-block rounded-full bg-forest-500 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">{s.tag}</span>
+                <h3 class="mt-2 font-display text-lg font-bold text-white">{s.title}</h3>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="reveal mt-12 text-center">
+        <a href="/gallery" class="btn-dark">
+          Explore the Full Gallery
+          <Icon name="arrow" class="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

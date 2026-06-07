@@ -1,0 +1,239 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from './PageHero.astro';
+import SectionHeading from './SectionHeading.astro';
+import Faq from './Faq.astro';
+import Icon from './Icon.astro';
+import LeadForm from './LeadForm.astro';
+import { business } from '../data/site';
+
+export interface ServiceDetailProps {
+  slug: string;
+  title: string;
+  metaTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  hero: string;
+  heroImage: string;
+  intro: string;
+  benefits: { icon: string; title: string; text: string }[];
+  process: { title: string; text: string }[];
+  pricing: { name: string; price: string; unit: string; features: string[]; popular?: boolean }[];
+  localCopy: { heading: string; body: string[] };
+  faqs: { q: string; a: string }[];
+}
+
+const props = Astro.props as ServiceDetailProps;
+
+const serviceSchema = [
+  {
+    '@type': 'Service',
+    '@id': `${business.url}/services/${props.slug}/#service`,
+    name: props.title,
+    description: props.metaDescription,
+    provider: { '@id': `${business.url}/#business` },
+    areaServed: business.serviceArea.map((a) => ({ '@type': 'City', name: a })),
+    serviceType: props.title,
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: props.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: business.url },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${business.url}/services` },
+      { '@type': 'ListItem', position: 3, name: props.title, item: `${business.url}/services/${props.slug}` },
+    ],
+  },
+];
+---
+
+<Layout title={props.metaTitle} description={props.metaDescription} schema={serviceSchema}>
+  <PageHero
+    eyebrow={props.eyebrow}
+    title={props.hero}
+    subtitle={props.intro}
+    image={props.heroImage}
+    crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/services' },
+      { label: props.title },
+    ]}
+  />
+
+  <!-- Quick CTA strip -->
+  <section class="border-b border-bone-200 bg-white">
+    <div class="container-px flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
+      <p class="font-display font-bold text-forest-900">
+        Ready to get started? Free estimates, no obligation.
+      </p>
+      <div class="flex gap-3">
+        <a href={business.phoneHref} class="btn-outline !py-3">
+          <Icon name="phone" class="h-4 w-4" />
+          {business.phone}
+        </a>
+        <a href="/contact" class="btn-primary !py-3">Get a Free Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Why choose us"
+        title={`The ${props.title} difference`}
+        subtitle="Premium results, dependable service, and a team that genuinely cares about your property."
+      />
+      <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          props.benefits.map((b) => (
+            <div class="reveal rounded-3xl border border-bone-200 bg-white p-8 card-hover">
+              <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-50 text-forest-600">
+                <Icon name={b.icon} class="h-7 w-7" />
+              </span>
+              <h3 class="mt-5 font-display text-xl font-bold text-forest-900">{b.title}</h3>
+              <p class="mt-2 text-forest-900/60 leading-relaxed">{b.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section-py bg-white">
+    <div class="container-px grid gap-14 lg:grid-cols-[0.9fr_1.4fr]">
+      <div class="reveal">
+        <span class="eyebrow"><Icon name="sprout" class="h-4 w-4" />How it works</span>
+        <h2 class="mt-4 font-display text-3xl font-extrabold tracking-tight text-forest-900 sm:text-4xl">
+          Our step-by-step process
+        </h2>
+        <p class="mt-4 text-forest-900/65">
+          A proven, transparent workflow that delivers consistent, professional results every visit.
+        </p>
+        <a href="/contact" class="btn-dark mt-7">Schedule Service</a>
+      </div>
+      <div class="reveal space-y-4">
+        {
+          props.process.map((s, i) => (
+            <div class="flex gap-5 rounded-2xl border border-bone-200 bg-bone-50 p-6">
+              <span class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-forest-600 font-display text-lg font-bold text-white">
+                {i + 1}
+              </span>
+              <div>
+                <h3 class="font-display text-lg font-bold text-forest-900">{s.title}</h3>
+                <p class="mt-1 text-forest-900/65">{s.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section-py bg-forest-950 text-white">
+    <div class="container-px">
+      <SectionHeading
+        eyebrow="Transparent Pricing"
+        title="Simple, honest pricing"
+        subtitle="No hidden fees, no surprises. Final pricing is confirmed with your free on-site estimate."
+        light
+      />
+      <div class="mt-16 grid gap-6 lg:grid-cols-3">
+        {
+          props.pricing.map((p) => (
+            <div
+              class:list={[
+                'reveal relative flex flex-col rounded-3xl border p-8',
+                p.popular
+                  ? 'border-forest-400 bg-forest-800 shadow-glow'
+                  : 'border-forest-800/60 bg-forest-900/40',
+              ]}
+            >
+              {p.popular && (
+                <span class="absolute -top-3 left-8 rounded-full bg-forest-400 px-3 py-1 text-xs font-bold uppercase tracking-wide text-forest-950">
+                  Most popular
+                </span>
+              )}
+              <h3 class="font-display text-xl font-bold text-white">{p.name}</h3>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="font-display text-4xl font-extrabold text-forest-400">{p.price}</span>
+                <span class="text-sm text-forest-100/60">{p.unit}</span>
+              </div>
+              <ul class="mt-6 flex-1 space-y-3">
+                {p.features.map((f) => (
+                  <li class="flex items-start gap-3 text-sm text-forest-100/85">
+                    <Icon name="check" class="mt-0.5 h-5 w-5 flex-shrink-0 text-forest-400" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="/contact"
+                class:list={['mt-8', p.popular ? 'btn-primary !bg-forest-400 !text-forest-950' : 'btn-secondary']}
+              >
+                Get Started
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Local SEO copy -->
+  <section class="section-py bg-white">
+    <div class="container-px grid items-center gap-14 lg:grid-cols-2">
+      <div class="reveal overflow-hidden rounded-[2rem] shadow-premium">
+        <img src={props.heroImage} alt={`${props.title} in ${business.address.city}`} loading="lazy" class="h-full w-full object-cover" />
+      </div>
+      <div class="reveal">
+        <h2 class="font-display text-3xl font-extrabold tracking-tight text-forest-900 sm:text-4xl">
+          {props.localCopy.heading}
+        </h2>
+        <div class="mt-6 space-y-4 text-forest-900/70 leading-relaxed">
+          {props.localCopy.body.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="mt-8 flex flex-wrap gap-2">
+          {
+            business.serviceArea.map((area) => (
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-forest-50 px-3 py-1.5 text-sm font-medium text-forest-700">
+                <Icon name="map-pin" class="h-4 w-4 text-forest-500" />
+                {area}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <Faq items={props.faqs} title={`${props.title} — your questions answered`} />
+
+  <!-- Closing lead form -->
+  <section class="section-py bg-forest-800">
+    <div class="container-px grid items-center gap-12 lg:grid-cols-2">
+      <div class="reveal">
+        <h2 class="font-display text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
+          Get your free {props.title.toLowerCase()} quote
+        </h2>
+        <p class="mt-5 text-lg text-forest-100/80">
+          Join thousands of happy homeowners across the Triangle. Tell us about your lawn and we'll
+          handle the rest.
+        </p>
+      </div>
+      <div class="reveal">
+        <LeadForm />
+      </div>
+    </div>
+  </section>
+</Layout>

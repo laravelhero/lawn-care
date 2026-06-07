@@ -1,0 +1,169 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Icon from '../../components/Icon.astro';
+import { business, services } from '../../data/site';
+
+// Each service tagged with categories for the Alpine filter tabs
+const catalog = [
+  {
+    ...services[0],
+    category: 'maintenance',
+    bullets: ['Weekly & bi-weekly mowing', 'Edging & string trimming', 'Full blow-down cleanup'],
+  },
+  {
+    ...services[1],
+    category: 'design',
+    bullets: ['Custom landscape design', 'Native & adaptive plantings', 'Patios, walls & walkways'],
+  },
+  {
+    ...services[2],
+    category: 'health',
+    bullets: ['Soil-tested programs', 'Pre & post-emergent weed control', 'Aeration & overseeding'],
+  },
+  {
+    ...services[3],
+    category: 'maintenance',
+    bullets: ['Spring & fall leaf removal', 'Bed cleanup & mulching', 'Full debris haul-away'],
+  },
+];
+
+const tabs = [
+  { key: 'all', label: 'All Services' },
+  { key: 'maintenance', label: 'Maintenance' },
+  { key: 'design', label: 'Design & Build' },
+  { key: 'health', label: 'Turf Health' },
+];
+
+const iconMap: Record<string, string> = {
+  mower: 'mower',
+  landscape: 'landscape',
+  fertilize: 'fertilize',
+  leaf: 'leaf',
+};
+
+const schema = [
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: business.url },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${business.url}/services` },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Lawn Care & Landscaping Services in Raleigh"
+  description="Explore Obscura Lawn Care's full range of services: professional lawn mowing, custom landscaping, fertilization & weed control, and seasonal cleanups across the Triangle."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Our Services"
+    title="Complete lawn care, <span class='text-forest-400'>under one roof</span>"
+    subtitle="From routine maintenance to full-scale transformations, we keep your outdoor spaces healthy, green, and beautiful — every season of the year."
+    image="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=2000&q=80"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]}
+  />
+
+  <section class="section-py bg-bone-50">
+    <div class="container-px" x-data="{ filter: 'all' }">
+      <SectionHeading
+        eyebrow="What we do"
+        title="Browse our services"
+        subtitle="Filter by category to find exactly what your property needs."
+      />
+
+      <!-- Filter tabs -->
+      <div class="reveal mt-10 flex flex-wrap justify-center gap-3">
+        {
+          tabs.map((t) => (
+            <button
+              @click={`filter = '${t.key}'`}
+              :class={`filter === '${t.key}' ? 'bg-forest-600 text-white shadow-glow' : 'bg-white text-forest-800 hover:bg-forest-50'`}
+              class="rounded-full border border-bone-200 px-6 py-2.5 text-sm font-semibold transition-all"
+            >
+              {t.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Service cards -->
+      <div class="mt-12 grid gap-7 lg:grid-cols-2">
+        {
+          catalog.map((s) => (
+            <article
+              x-show={`filter === 'all' || filter === '${s.category}'`}
+              x-transition.opacity.duration.300ms
+              class="group reveal flex flex-col overflow-hidden rounded-3xl border border-bone-200 bg-white shadow-card card-hover md:flex-row"
+            >
+              <div class="relative h-56 overflow-hidden md:h-auto md:w-2/5">
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <span class="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-600/90 text-white backdrop-blur">
+                  <Icon name={iconMap[s.icon]} class="h-6 w-6" />
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col p-7">
+                <h3 class="font-display text-2xl font-bold text-forest-900">{s.title}</h3>
+                <p class="mt-2 text-forest-900/65">{s.description}</p>
+                <ul class="mt-4 space-y-2">
+                  {s.bullets.map((b) => (
+                    <li class="flex items-center gap-2.5 text-sm text-forest-900/75">
+                      <Icon name="check" class="h-4 w-4 flex-shrink-0 text-forest-500" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-6 flex items-center justify-between">
+                  <span class="text-sm font-semibold text-forest-900/50">from {s.priceFrom}</span>
+                  <a
+                    href={`/services/${s.slug}`}
+                    class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-forest-600 hover:text-forest-500"
+                  >
+                    Learn More
+                    <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Bundle CTA -->
+  <section class="section-py bg-white">
+    <div class="container-px">
+      <div class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-forest-700 to-forest-950 px-8 py-16 text-center md:px-16">
+        <div class="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-forest-500/15 blur-3xl"></div>
+        <div class="relative mx-auto max-w-2xl">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            Bundle services & save year-round
+          </h2>
+          <p class="mt-4 text-lg text-forest-100/80">
+            Combine mowing, fertilization, and seasonal cleanups into one effortless annual plan —
+            one crew, one schedule, one predictable price.
+          </p>
+          <div class="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="/contact" class="btn-primary !bg-white !text-forest-800 hover:!bg-bone-100">
+              Build My Plan
+              <Icon name="arrow" class="h-4 w-4" />
+            </a>
+            <a href={business.phoneHref} class="btn-secondary">
+              <Icon name="phone" class="h-4 w-4" />
+              {business.phone}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

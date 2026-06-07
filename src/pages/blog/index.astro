@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { business } from '../../data/site';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const featured = posts.find((p) => p.data.featured) ?? posts[0];
+const rest = posts.filter((p) => p.id !== featured.id);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const schema = [
+  {
+    '@type': 'Blog',
+    name: `${business.name} Blog`,
+    url: `${business.url}/blog`,
+    blogPost: posts.map((p) => ({
+      '@type': 'BlogPosting',
+      headline: p.data.title,
+      datePublished: p.data.pubDate.toISOString(),
+      author: { '@type': 'Person', name: p.data.author },
+      url: `${business.url}/blog/${p.id}`,
+    })),
+  },
+];
+---
+
+<Layout
+  title="Lawn Care Tips & Landscaping Blog"
+  description="Expert lawn care advice from Obscura Lawn Care — seasonal checklists, turf health guides, grass selection, and pro tips tailored for North Carolina's Triangle region."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Blog & Resources"
+    title="Grow smarter with <span class='text-forest-400'>expert</span> lawn advice"
+    subtitle="Practical, no-fluff tips from our horticulturists — tailored to Triangle soil, climate, and seasons."
+    image="https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=2000&q=80"
+    crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog' }]}
+  />
+
+  <section class="section-py bg-bone-50">
+    <div class="container-px">
+      <!-- Featured post -->
+      <a
+        href={`/blog/${featured.id}`}
+        class="group reveal grid overflow-hidden rounded-[2rem] border border-bone-200 bg-white shadow-card card-hover lg:grid-cols-2"
+      >
+        <div class="relative h-64 overflow-hidden lg:h-auto">
+          <img src={featured.data.image} alt={featured.data.title} class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <span class="absolute left-5 top-5 rounded-full bg-forest-500 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">Featured</span>
+        </div>
+        <div class="flex flex-col justify-center p-8 lg:p-12">
+          <div class="flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-forest-600">
+            <span>{featured.data.category}</span>
+            <span class="text-forest-900/30">•</span>
+            <span class="text-forest-900/50">{featured.data.readTime}</span>
+          </div>
+          <h2 class="mt-4 font-display text-3xl font-extrabold leading-tight tracking-tight text-forest-900">
+            {featured.data.title}
+          </h2>
+          <p class="mt-4 text-forest-900/65 leading-relaxed">{featured.data.description}</p>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-sm text-forest-900/55">{fmt(featured.data.pubDate)} · {featured.data.author}</span>
+            <span class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-forest-600">
+              Read
+              <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Post grid -->
+      <div class="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+        {
+          rest.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="group reveal flex flex-col overflow-hidden rounded-3xl border border-bone-200 bg-white shadow-card card-hover"
+            >
+              <div class="relative h-52 overflow-hidden">
+                <img src={post.data.image} alt={post.data.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <span class="absolute left-4 top-4 rounded-full bg-forest-950/70 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">
+                  {post.data.category}
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <p class="text-xs font-semibold uppercase tracking-wider text-forest-900/45">
+                  {fmt(post.data.pubDate)} · {post.data.readTime}
+                </p>
+                <h3 class="mt-3 font-display text-xl font-bold leading-snug text-forest-900">{post.data.title}</h3>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-forest-900/60">{post.data.description}</p>
+                <span class="mt-5 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-forest-600">
+                  Read More
+                  <Icon name="arrow" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

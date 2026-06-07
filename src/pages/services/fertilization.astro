@@ -1,0 +1,48 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+---
+
+<ServiceDetail
+  slug="fertilization"
+  title="Fertilization"
+  metaTitle="Lawn Fertilization & Weed Control Programs in Raleigh, NC"
+  metaDescription="Soil-tested lawn fertilization & weed control in Raleigh, Cary & Durham. Season-tuned 6-step programs for thick, deep-green, weed-free turf. Free lawn analysis."
+  eyebrow="Fertilization & Turf Care"
+  hero="Fertilization for <span class='text-forest-400'>thick, deep-green</span> turf"
+  heroImage="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=2000&q=80"
+  intro="Soil-tested, season-tuned fertilization and weed control programs engineered to build dense, resilient, deep-green turf that naturally crowds out weeds — visit after visit."
+  benefits={[
+    { icon: 'droplet', title: 'Soil-Tested First', text: 'We test pH and nutrients before treating, so your lawn gets precisely what it needs — never guesswork.' },
+    { icon: 'sun', title: 'Season-Tuned Programs', text: 'A multi-round schedule timed to NC growing cycles — pre-emergent in spring, balanced feeding through the season.' },
+    { icon: 'leaf', title: 'Targeted Weed Control', text: 'Pre- and post-emergent applications stop crabgrass, broadleaf, and nutsedge before they take over.' },
+    { icon: 'sprout', title: 'Deep-Root Health', text: 'Slow-release nitrogen and bio-stimulants build strong roots that resist drought, heat, and disease.' },
+    { icon: 'shield', title: 'Family & Pet Safe', text: 'Responsible application practices and clear re-entry guidance keep your household and pets safe.' },
+    { icon: 'badge-check', title: 'Free Service Calls', text: 'Program clients get complimentary touch-up visits between rounds if weeds appear.' },
+  ]}
+  process={[
+    { title: 'Free Lawn Analysis', text: 'We inspect your turf, identify grass type and problem areas, and pull a soil test to set a baseline.' },
+    { title: 'Custom Program Build', text: 'You get a season-long plan with application timing, products, and clear expectations for results.' },
+    { title: 'Scheduled Applications', text: 'Our licensed technicians apply each round on schedule, adjusting for weather and lawn response.' },
+    { title: 'Monitor & Adjust', text: 'We track progress visit to visit and fine-tune the program — plus free touch-ups if weeds appear.' },
+  ]}
+  pricing={[
+    { name: 'Per Application', price: '$65', unit: '/ visit', features: ['Single round treatment', 'Balanced fertilizer', 'Spot weed control', 'Up to 1/4 acre'] },
+    { name: '6-Step Annual', price: '$340', unit: '/ season', popular: true, features: ['6 timed applications', 'Pre & post-emergent weed control', 'Soil test included', 'Free touch-up visits', 'Up to 1/4 acre'] },
+    { name: 'Premium Turf Care', price: 'Custom', unit: 'quote', features: ['8+ applications', 'Grub & disease control', 'Aeration & overseeding add-on', 'Lime & soil amendments', 'Priority service'] },
+  ]}
+  localCopy={{
+    heading: 'A feeding program built for NC soil',
+    body: [
+      "The Piedmont's acidic clay soils and humid summers create unique challenges for turf. Our programs start with a soil test, then correct pH with lime when needed so the fertilizer you pay for is actually absorbed.",
+      "Timing is everything in North Carolina. We apply pre-emergents before soil temperatures trigger crabgrass germination, feed cool-season fescue in fall when it builds the most root mass, and tune nitrogen to avoid pushing disease in peak heat.",
+      "The payoff is a lawn that's noticeably thicker and greener within a season — dense enough to shade out most weeds naturally and tough enough to bounce back from Triangle summers.",
+    ],
+  }}
+  faqs={[
+    { q: 'How many applications does my lawn need per year?', a: 'Most Triangle lawns thrive on a 6-step annual program spaced across the growing season. Lawns with heavy weed pressure or disease history may benefit from our 8-step premium program. We confirm the right plan after your soil test.' },
+    { q: 'Is the treatment safe for my kids and pets?', a: 'Yes. We follow responsible application practices and provide clear re-entry timing — typically once the application has dried, usually a couple of hours. We are happy to discuss organic-leaning options too.' },
+    { q: 'When will I see results?', a: 'Most clients notice deeper color within two to three weeks of the first feeding and significantly thicker, more weed-resistant turf by the end of the first full season.' },
+    { q: 'Do you offer aeration and overseeding?', a: 'Yes. Core aeration and overseeding are powerful additions to any fertilization program, especially for fescue lawns in fall. They are available as add-ons or bundled into our premium plan.' },
+    { q: 'What if weeds come back between visits?', a: 'Annual program clients receive complimentary touch-up service calls between rounds. Just let us know and we will come spot-treat at no extra charge.' },
+  ]}
+/>
